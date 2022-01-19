@@ -1,6 +1,7 @@
 ---
 - name: install docker ce
   become: yes
+  hosts: all
   tasks:
 
 
