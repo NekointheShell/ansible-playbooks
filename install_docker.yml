@@ -1,0 +1,45 @@
+---
+- name: install docker ce
+  become: yes
+  tasks:
+
+
+  - name: get architecture
+    shell: dpkg --print-architecture
+    register: architecture
+
+
+  - name: get lsb_release
+    shell: lsb_release -cs
+    register: lsb_release
+
+
+  - name: install apt tooling
+    apt:
+      update_cache: yes
+      name:
+        - ca-certificates
+        - curl
+        - gnupg
+        - lsb-release
+
+
+  - name: install docker apt keyring
+    apt_key:
+      url: https://download.docker.com/linux/debian/gpg
+      keyring: /usr/share/keyrings/docker-archive-keyring.gpg
+
+
+  - name: add docker apt repo
+    apt_repository:
+      repo: deb [arch={{ architecture.stdout }} signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/debian {{ lsb_release.stdout }} stable
+      filename: docker
+
+
+  - name: install docker
+    apt:
+      update_cache: yes
+      name:
+        - docker-ce
+        - docker-ce-cli
+        - containerd.io
