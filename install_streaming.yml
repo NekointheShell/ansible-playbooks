@@ -5,7 +5,7 @@
   tasks:
 
 
-  - name: install gninx
+  - name: install nginx
     apt:
       update_cache: yes
       name:
@@ -15,7 +15,7 @@
 
   - name: copy nginx config
     copy:
-      src: streaming/streaming_nginx.conf
+      src: streaming/nginx.conf
       dest: /etc/nginx/nginx.conf
 
 
