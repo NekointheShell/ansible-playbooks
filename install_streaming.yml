@@ -1,0 +1,25 @@
+---
+- name: install streaming
+  become: yes
+  hosts: all
+  tasks:
+
+
+  - name: install gninx
+    apt:
+      update_cache: yes
+      name:
+        - nginx
+        - libnginx-mod-rtmp
+
+
+  - name: copy nginx config
+    copy:
+      src: streaming/streaming_nginx.conf
+      dest: /etc/nginx/nginx.conf
+
+
+  - name: restart nginx
+    service:
+      name: nginx
+      state: restarted
