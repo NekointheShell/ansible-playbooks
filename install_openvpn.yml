@@ -1,0 +1,35 @@
+---
+- name: install openvpn
+  become: yes
+  hosts: all
+  tasks:
+
+
+  - name: install openvpn
+    apt:
+      update_cache: yes
+      name: openvpn
+
+
+  - name: generate static.key
+    shell: openvpn --genkey secret /etc/openvpn/static.key
+
+
+  - name: start openvpn
+    service:
+      name: openvpn-server@server
+      state: restarted
+
+
+  - name: set iptables rules
+    iptables:
+      table: nat
+      chain: POSTROUTING
+      out_interface: eth0
+      jump: MASQUERADE
+
+
+  - name: set sysctl net.ipv4.ip_forward = 1
+    sysctl:
+      name: net.ipv4.ip_forward
+      value: 1
