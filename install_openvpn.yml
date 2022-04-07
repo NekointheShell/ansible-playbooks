@@ -8,7 +8,9 @@
   - name: install openvpn
     apt:
       update_cache: yes
-      name: openvpn
+      name:
+        - openvpn
+        - iptables-persistent
 
 
   - name: generate static.key
@@ -27,6 +29,10 @@
       chain: POSTROUTING
       out_interface: eth0
       jump: MASQUERADE
+
+
+  - name: save iptables rules
+    shell: iptables-save /etc/iptables/rules.v4
 
 
   - name: set sysctl net.ipv4.ip_forward = 1
