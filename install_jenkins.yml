@@ -1,0 +1,30 @@
+---
+- name: install jenkins
+  become: yes
+  hosts: all
+  tasks:
+
+
+  - name: get architecture
+    shell: dpkg --print-architecture
+    register: architecture
+
+
+  - name: install jenkins keyring
+    apt_key:
+      url: https://pkg.jenkins.io/debian-stable/jenkins.io.key
+      keyring: /usr/share/keyrings/jenkins-keyring.gpg
+
+
+  - name: add jenkins apt repo
+    apt_repository:
+      repo: deb [arch={{ architecture.stdout }} signed-by=/usr/share/keyrings/jenkins-keyring.gpg] https://pkg.jenkins.io/debian-stable binary/
+      filename: jenkins
+
+
+  - name: install jenkins
+    apt:
+      update_cache: yes
+      name:
+        - default-jre
+        - jenkins
