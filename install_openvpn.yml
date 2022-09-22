@@ -13,6 +13,12 @@
         - iptables-persistent
 
 
+  - name: copy openvpn config
+    copy:
+      src: openvpn/server.conf
+      dest: /etc/openvpn/server/server.conf
+
+
   - name: generate static.key
     shell: openvpn --genkey secret /etc/openvpn/static.key
 
