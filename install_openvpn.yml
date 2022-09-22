@@ -38,7 +38,7 @@
 
 
   - name: save iptables rules
-    shell: iptables-save /etc/iptables/rules.v4
+    shell: iptables-save > /etc/iptables/rules.v4
 
 
   - name: set sysctl net.ipv4.ip_forward = 1
