@@ -13,8 +13,8 @@
 
   - name: copy networkd configs
     copy:
-      src: router/networkd/*
-      dest: /etc/systemd/network/*
+      src: router/networkd
+      dest: /etc/systemd/network
 
 
   - name: copy iptables rules
