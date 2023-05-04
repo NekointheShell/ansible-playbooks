@@ -17,6 +17,12 @@
       dest: /etc/systemd/network
 
 
+  - name: make iptables directory
+    file:
+      path: /etc/iptables
+      state: directory
+
+
   - name: copy iptables rules
     copy:
       src: router/rules.v4
