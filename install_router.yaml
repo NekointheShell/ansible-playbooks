@@ -1,0 +1,67 @@
+---
+- name: install router
+  become: yes
+  hosts: all
+  tasks:
+
+
+  - name: copy sysctl.conf
+    copy:
+      src: router/sysctl.conf
+      dest: /etc/sysctl.conf
+
+
+  - name: copy networkd configs
+    copy:
+      src: router/networkd/*
+      dest: /etc/systemd/network/*
+
+
+  - name: copy iptables rules
+    copy:
+      src: router/rules.v4
+      dest: /etc/iptables/rules.v4
+
+
+  - name: copy resolved config
+    copy:
+      src: router/resolved.conf
+      dest: /etc/systemd/resolved.conf
+
+
+  - name: load sysctl config
+    shell: sysctl -p
+
+
+  - name: stop and disable networking
+    systemd:
+      name: networking
+      state: stopped
+      enabled: false
+
+
+  - name: start and enable networkd
+    systemd:
+      name: systemd-networkd
+      state: started
+      enabled: true
+
+
+  - name: install iptables-persistent
+    apt:
+      name: iptables-persistent
+
+
+  - name: load iptables rules
+    shell: iptables-restore /etc/iptables/rules.v4
+
+
+  - name: stub resolv.conf
+    shell: ln -s /run/systemd/resolve/stub-resolv.conf /etc/resolv.conf
+
+
+  - name: start and enable resolved
+    systemd:
+      name: systemd-resolved
+      state: started
+      enabled: true
