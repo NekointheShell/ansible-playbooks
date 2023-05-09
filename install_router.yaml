@@ -99,6 +99,7 @@
       path: /run/systemd/resolve/stub-resolv.conf
       src: /etc/resolv.conf
       state: link
+      force: yes
 
 
   - name: start and enable resolved
