@@ -105,14 +105,16 @@
 
   - name: edit hostapd SSID
     replace:
+      path: /etc/hostapd/hostapd.conf
       regexp: 'CHANGEME_SSID'
-      replace: {{ ssid }}
+      replace: "{{ ssid }}"
 
 
   - name: edit hostapd passphrase
     replace:
+      path: /etc/hostapd/hostapd.conf
       regexp: 'CHANGEME_PASSPHRASE'
-      replace: {{ passphrase }}
+      replace: "{{ passphrase }}"
 
 
   - name: start and enable hostapd
