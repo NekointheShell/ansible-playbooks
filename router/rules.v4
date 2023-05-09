@@ -25,3 +25,6 @@
 # forwarding
 -A FORWARD -i home -o internet -j ACCEPT
 -A FORWARD -i internet -o home -m state --state RELATED,ESTABLISHED -j ACCEPT
+
+
+COMMIT
