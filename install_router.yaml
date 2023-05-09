@@ -2,7 +2,38 @@
 - name: install router
   become: yes
   hosts: all
+
+  vars_prompt:
+    - name: ssid
+      prompt: SSID:
+      private: false
+
+
+    - name: passphrase
+      prompt: Passphrase:
+
+
   tasks:
+  - name: install iptables-persistent
+    apt:
+      name: iptables-persistent
+
+
+  - name: install hostapd
+    apt:
+      name: hostapd
+
+
+  - name: make iptables directory
+    file:
+      path: /etc/iptables
+      state: directory
+
+
+  - name: make hostapd directory
+    file:
+      path: /etc/hostapd
+      state: directory
 
 
   - name: copy sysctl.conf
@@ -17,12 +48,6 @@
       dest: /etc/systemd/network
 
 
-  - name: make iptables directory
-    file:
-      path: /etc/iptables
-      state: directory
-
-
   - name: copy iptables rules
     copy:
       src: router/rules.v4
@@ -33,6 +58,12 @@
     copy:
       src: router/resolved.conf
       dest: /etc/systemd/resolved.conf
+
+
+  - name: copy hostapd config
+    copy:
+      src: router/hostapd.conf
+      dest: /etc/hostapd/hostapd.conf
 
 
   - name: load sysctl config
@@ -53,11 +84,6 @@
       enabled: true
 
 
-  - name: install iptables-persistent
-    apt:
-      name: iptables-persistent
-
-
   - name: load iptables rules
     shell: iptables-restore /etc/iptables/rules.v4
 
@@ -69,5 +95,20 @@
   - name: start and enable resolved
     systemd:
       name: systemd-resolved
+      state: started
+      enabled: true
+
+
+  - name: edit hostapd SSID
+    shell: sed -i "s/CHANGEME_SSID/{{ ssid }}/" /etc/hostapd/hostapd.conf
+
+
+  - name: edit hostapd passphrase
+    shell: sed -i "s/CHANGEME_PASSPHRASE/{{ passphrase }}/" /etc/hostapd/hostapd.conf
+
+
+  - name: start and enable hostapd
+    systemd:
+      name: hostapd
       state: started
       enabled: true
