@@ -14,14 +14,23 @@
 
 
   tasks:
-  - name: install iptables-persistent
-    apt:
-      name: iptables-persistent
+  - name: configure backports
+    lineinfile:
+      path: /etc/apt/sources.list
+      line: deb http://deb.debian.org/debian/ bullseye-backports
 
 
-  - name: install hostapd
+  - name: apt install
     apt:
-      name: hostapd
+      name: linux-image-amd64, firmware-realtek, iptables-persistent, hostapd
+      update_cache: true
+
+
+  - name: deconfigure backports
+    lineinfile:
+      path: /etc/apt/sources.list
+      line: deb http://deb.debian.org/debian/ bullseye-backports
+      state: absent
 
 
   - name: make iptables directory
