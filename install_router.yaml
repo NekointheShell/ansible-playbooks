@@ -90,10 +90,10 @@
 
   - name: stub resolv.conf
     file:
-      path: /run/systemd/resolve/stub-resolv.conf
-      src: /etc/resolv.conf
+      path: /etc/resolv.conf
+      src: /run/systemd/resolve/stub-resolv.conf
       state: link
-      force: yes
+      follow: false
 
 
   - name: start and enable resolved
@@ -104,11 +104,15 @@
 
 
   - name: edit hostapd SSID
-    shell: sed -i "s/CHANGEME_SSID/{{ ssid }}/" /etc/hostapd/hostapd.conf
+    replace:
+      regexp: 'CHANGEME_SSID'
+      replace: {{ ssid }}
 
 
   - name: edit hostapd passphrase
-    shell: sed -i "s/CHANGEME_PASSPHRASE/{{ passphrase }}/" /etc/hostapd/hostapd.conf
+    replace:
+      regexp: 'CHANGEME_PASSPHRASE'
+      replace: {{ passphrase }}
 
 
   - name: start and enable hostapd
