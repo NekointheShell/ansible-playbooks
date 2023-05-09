@@ -5,12 +5,12 @@
 
   vars_prompt:
     - name: ssid
-      prompt: SSID:
+      prompt: SSID
       private: false
 
 
     - name: passphrase
-      prompt: Passphrase:
+      prompt: Passphrase
 
 
   tasks:
