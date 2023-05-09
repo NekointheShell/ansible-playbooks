@@ -122,3 +122,4 @@
       name: hostapd
       state: started
       enabled: true
+      masked: no
