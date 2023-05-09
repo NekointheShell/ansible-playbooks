@@ -88,12 +88,6 @@
     shell: iptables-restore /etc/iptables/rules.v4
 
 
-  - name: rm resolv.conf
-    file:
-      path: /etc/resolv.conf
-      state: absent
-
-
   - name: stub resolv.conf
     file:
       path: /run/systemd/resolve/stub-resolv.conf
