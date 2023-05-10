@@ -14,6 +14,7 @@
 
 
   tasks:
+  # apt
   - name: configure backports
     lineinfile:
       path: /etc/apt/sources.list
@@ -33,6 +34,7 @@
       state: absent
 
 
+  # copying files
   - name: make iptables directory
     file:
       path: /etc/iptables
@@ -79,6 +81,7 @@
     shell: sysctl -p
 
 
+  # networking
   - name: stop and disable networking
     systemd:
       name: networking
@@ -97,6 +100,7 @@
     shell: iptables-restore /etc/iptables/rules.v4
 
 
+  # resolved
   - name: stub resolv.conf
     file:
       path: /etc/resolv.conf
@@ -112,6 +116,7 @@
       enabled: true
 
 
+  # hostapd
   - name: edit hostapd SSID
     replace:
       path: /etc/hostapd/hostapd.conf
