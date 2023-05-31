@@ -1,6 +1,6 @@
 [Match]
 Name=enp8s0
-Name=wlp7s0
+Name=homewifi
 
 
 [Network]
