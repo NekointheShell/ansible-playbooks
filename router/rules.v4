@@ -26,5 +26,11 @@
 -A FORWARD -i home -o internet -j ACCEPT
 -A FORWARD -i internet -o home -m state --state RELATED,ESTABLISHED -j ACCEPT
 
+-A FORWARD -i iot -o internet -j ACCEPT
+-A FORWARD -i internet -o iot -m state --state RELATED,ESTABLISHED -j ACCEPT
+
+-A FORWARD -i roommate -o internet -j ACCEPT
+-A FORWARD -i internet -o roommate -m state --state RELATED,ESTABLISHED -j ACCEPT
+
 
 COMMIT
