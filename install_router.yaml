@@ -132,18 +132,46 @@
 
 
   # hostapd
-  - name: edit hostapd SSID
+  - name: edit hostapd SSID 1
     replace:
       path: /etc/hostapd/hostapd.conf
-      regexp: 'CHANGEME_SSID'
-      replace: "{{ ssid }}"
+      regexp: 'CHANGEME_SSID_1'
+      replace: "{{ ssid1 }}"
 
 
-  - name: edit hostapd passphrase
+  - name: edit hostapd passphrase 1
     replace:
       path: /etc/hostapd/hostapd.conf
-      regexp: 'CHANGEME_PASSPHRASE'
-      replace: "{{ passphrase }}"
+      regexp: 'CHANGEME_PASSPHRASE_1'
+      replace: "{{ passphrase1 }}"
+
+
+  - name: edit hostapd SSID 2
+    replace:
+      path: /etc/hostapd/hostapd.conf
+      regexp: 'CHANGEME_SSID_2'
+      replace: "{{ ssid2 }}"
+
+
+  - name: edit hostapd passphrase 2
+    replace:
+      path: /etc/hostapd/hostapd.conf
+      regexp: 'CHANGEME_PASSPHRASE_2'
+      replace: "{{ passphrase2 }}"
+
+
+  - name: edit hostapd SSID 3
+    replace:
+      path: /etc/hostapd/hostapd.conf
+      regexp: 'CHANGEME_SSID_3'
+      replace: "{{ ssid3 }}"
+
+
+  - name: edit hostapd passphrase 3
+    replace:
+      path: /etc/hostapd/hostapd.conf
+      regexp: 'CHANGEME_PASSPHRASE_3'
+      replace: "{{ passphrase3 }}"
 
 
   - name: start and enable hostapd
