@@ -4,13 +4,28 @@
   hosts: all
 
   vars_prompt:
-    - name: ssid
-      prompt: SSID
+    - name: ssid1
+      prompt: SSID 1
       private: false
 
+    - name: passphrase1
+      prompt: Passphrase 1
 
-    - name: passphrase
-      prompt: Passphrase
+
+    - name: ssid2
+      prompt: SSID 2
+      private: false
+
+    - name: passphrase2
+      prompt: Passphrase 2
+
+
+    - name: ssid3
+      prompt: SSID 3
+      private: false
+
+    - name: passphrase3
+      prompt: Passphrase 3
 
 
   tasks:
