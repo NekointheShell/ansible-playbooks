@@ -177,6 +177,10 @@
       replace: "{{ passphrase }}"
 
 
+  - name: kill rfkill
+    shell: rfkill unblock 0
+
+
   - name: start and enable hostapd
     systemd:
       name: hostapd
