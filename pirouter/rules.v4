@@ -1,0 +1,35 @@
+*filter
+:INPUT DROP
+:FORWARD DROP
+:OUTPUT DROP
+
+
+# accept loopback
+-A INPUT -i lo -j ACCEPT
+-A OUTPUT -o lo -j ACCEPT
+
+
+# accept SSH
+-A INPUT -i wlan0 -p tcp -m tcp --dport 22 -j ACCEPT
+-A OUTPUT -p tcp -m tcp --sport 22 -m state --state RELATED,ESTABLISHED -j ACCEPT
+
+
+# accept DNS
+-A INPUT -s 8.8.8.8/32 -p tcp -m tcp --sport 853 -m state --state RELATED,ESTABLISHED -j ACCEPT
+-A OUTPUT -d 8.8.8.8/32 -p tcp -m tcp --dport 853 -j ACCEPT
+
+-A INPUT -s 8.8.4.4/32 -p tcp -m tcp --sport 853 -m state --state RELATED,ESTABLISHED -j ACCEPT
+-A OUTPUT -d 8.8.4.4/32 -p tcp -m tcp --dport 853 -j ACCEPT
+
+
+# forwarding
+-A FORWARD -i wlan0 -o eth0 -j ACCEPT
+-A FORWARD -i eth0 -o wlan0 -m state --state RELATED,ESTABLISHED -j ACCEPT
+
+
+# allow outbound on 80 and 443
+-A OUTPUT -p tcp -m tcp --dport 80 -j ACCEPT
+-A OUTPUT -p tcp -m tcp --dport 443 -j ACCEPT
+
+
+COMMIT

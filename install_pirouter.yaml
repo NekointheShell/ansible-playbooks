@@ -1,0 +1,191 @@
+---
+- name: install router
+  become: yes
+
+
+  vars_prompt:
+    - name: ssid
+      prompt: SSID
+      private: false
+
+    - name: passphrase
+      prompt: Passphrase
+
+
+  tasks:
+  - name: apt full upgrade and install
+    apt:
+      name: iptables-persistent, hostapd, dnsmasq
+      update_cache: true
+      upgrade: full
+
+
+  - name: kill avahi
+    systemd:
+      name: avahi-daemon
+      state: stopped
+      enabled: false
+      masked: true
+
+
+  - name: kill dhcpcd
+    systemd:
+      name: dhcpcd
+      state: stopped
+      enabled: false
+      masked: true
+
+
+  - name: kill modem manager
+    systemd:
+      name: ModemManager
+      state: stopped
+      enabled: false
+      masked: true
+
+
+  - name: kill wpa_supplicant
+    systemd:
+      name: wpa_supplicant
+      state: stopped
+      enabled: false
+      masked: true
+
+
+  - name: kill network manager
+    systemd:
+      name: NetworkManager
+      state: stopped
+      enabled: false
+      masked: true
+
+
+  - name: kill bluetoothd
+    systemd:
+      name: bluetoothd
+      state: stopped
+      enabled: false
+      masked: true
+
+
+  # copying files
+  - name: make iptables directory
+    file:
+      path: /etc/iptables
+      state: directory
+
+
+  - name: make hostapd directory
+    file:
+      path: /etc/hostapd
+      state: directory
+
+
+  - name: copy sysctl.conf
+    copy:
+      src: pirouter/sysctl.conf
+      dest: /etc/sysctl.conf
+
+
+  - name: copy networkd configs
+    copy:
+      src: pirouter/networkd/
+      dest: /etc/systemd/network/
+
+
+  - name: copy iptables rules
+    copy:
+      src: pirouter/rules.v4
+      dest: /etc/iptables/rules.v4
+
+
+  - name: copy resolved config
+    copy:
+      src: pirouter/resolved.conf
+      dest: /etc/systemd/resolved.conf
+
+
+  - name: copy hostapd config
+    copy:
+      src: pirouter/hostapd.conf
+      dest: /etc/hostapd/hostapd.conf
+
+
+  - name: copy dnsmasq config
+    copy:
+      src: pirouter/dnsmasq.conf
+      dest: /etc/systemd/dnsmasq.conf
+
+
+  # networking
+  - name: load sysctl
+    shell: sysctl -p
+
+
+  - name: kill networking
+    systemd:
+      name: networking
+      state: stopped
+      enabled: false
+
+
+  - name: start and enable networkd
+    systemd:
+      name: systemd-networkd
+      state: started
+      enabled: true
+
+
+  - name: load iptables rules
+    shell: iptables-restore /etc/iptables/rules.v4
+
+
+  # resolved
+  - name: stub resolv.conf
+    file:
+      path: /etc/resolv.conf
+      src: /run/systemd/resolve/stub-resolv.conf
+      state: link
+      follow: false
+
+
+  - name: start and enable resolved
+    systemd:
+      name: systemd-resolved
+      state: started
+      enabled: true
+
+
+  # hostapd
+  - name: edit hostapd SSID
+    replace:
+      path: /etc/hostapd/hostapd.conf
+      regexp: 'CHANGEME_SSID'
+      replace: "{{ ssid }}"
+
+
+  - name: edit hostapd passphrase
+    replace:
+      path: /etc/hostapd/hostapd.conf
+      regexp: 'CHANGEME_PASSPHRASE'
+      replace: "{{ passphrase }}"
+
+
+  - name: start and enable hostapd
+    systemd:
+      name: hostapd
+      state: started
+      enabled: true
+
+
+  - name: start and enable dnsmasq
+    systemd:
+      name: dnsmasq
+      state: started
+      enabled: true
+
+
+  # reboot
+  - name: reboot
+    reboot:
+    
