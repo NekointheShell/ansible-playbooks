@@ -182,6 +182,7 @@
       name: hostapd
       state: started
       enabled: true
+      masked: false
 
 
   - name: start and enable dnsmasq
@@ -194,4 +195,3 @@
   # reboot
   - name: reboot
     reboot:
-    
