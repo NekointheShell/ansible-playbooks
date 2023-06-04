@@ -106,7 +106,7 @@
     replace:
       path: /etc/systemd/network/*
       regexp: eth0
-      replace: {{ internetif }}
+      replace: "{{ internetif }}"
 
 
   - name: copy iptables rules
@@ -119,7 +119,7 @@
     replace:
       path: /etc/iptables/rules.v4
       regexp: eth0
-      replace: {{ internetif }}
+      replace: "{{ internetif }}"
 
 
   - name: copy hostapd config
@@ -131,7 +131,14 @@
   - name: copy dnsmasq config
     copy:
       src: pirouter/dnsmasq.conf
-      dest: /etc/systemd/dnsmasq.conf
+      dest: /etc/dnsmasq.conf
+
+
+  - name: replace eth0
+    replace:
+      path: /etc/dnsmasq.conf
+      regexp: eth0
+      replace: "{{ internetif }}"
 
 
   # networking
