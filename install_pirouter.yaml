@@ -152,6 +152,7 @@
       src: /run/systemd/resolve/stub-resolv.conf
       state: link
       follow: false
+      force: true
 
 
   - name: start and enable resolved
