@@ -1,5 +1,5 @@
 ---
-- name: install router
+- name: install pirouter
   become: yes
   hosts: all
 
@@ -67,7 +67,7 @@
 
   - name: kill bluetoothd
     systemd:
-      name: bluetoothd
+      name: bluetooth
       state: stopped
       enabled: false
       masked: true
