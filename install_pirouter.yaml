@@ -5,6 +5,10 @@
 
 
   vars_prompt:
+    - name: internetif
+      prompt: Internet-facing Interface
+      private: false
+
     - name: ssid
       prompt: SSID
       private: false
@@ -98,10 +102,24 @@
       dest: /etc/systemd/network/
 
 
+  - name: replace eth0
+    replace:
+      path: /etc/systemd/network/*
+      regexp: eth0
+      replace: {{ internetif }}
+
+
   - name: copy iptables rules
     copy:
       src: pirouter/rules.v4
       dest: /etc/iptables/rules.v4
+
+
+  - name: replace eth0
+    replace:
+      path: /etc/iptables/rules.v4
+      regexp: eth0
+      replace: {{ internetif }}
 
 
   - name: copy hostapd config
