@@ -104,7 +104,7 @@
 
   - name: replace eth0
     replace:
-      path: /etc/systemd/network/*
+      path: /etc/systemd/network/eth0.network
       regexp: eth0
       replace: "{{ internetif }}"
 
