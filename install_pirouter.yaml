@@ -1,6 +1,7 @@
 ---
 - name: install router
   become: yes
+  hosts: all
 
 
   vars_prompt:
