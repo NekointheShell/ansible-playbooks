@@ -104,12 +104,6 @@
       dest: /etc/iptables/rules.v4
 
 
-  - name: copy resolved config
-    copy:
-      src: pirouter/resolved.conf
-      dest: /etc/systemd/resolved.conf
-
-
   - name: copy hostapd config
     copy:
       src: pirouter/hostapd.conf
@@ -143,23 +137,6 @@
 
   - name: load iptables rules
     shell: iptables-restore /etc/iptables/rules.v4
-
-
-  # resolved
-  - name: stub resolv.conf
-    file:
-      path: /etc/resolv.conf
-      src: /run/systemd/resolve/stub-resolv.conf
-      state: link
-      follow: false
-      force: true
-
-
-  - name: start and enable resolved
-    systemd:
-      name: systemd-resolved
-      state: started
-      enabled: true
 
 
   # hostapd
