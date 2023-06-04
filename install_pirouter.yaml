@@ -14,11 +14,15 @@
 
 
   tasks:
+  - name apt full upgrade
+    apt:
+      update_cache: true
+      upgrade: full
+
+
   - name: apt full upgrade and install
     apt:
       name: iptables-persistent, hostapd, dnsmasq
-      update_cache: true
-      upgrade: full
 
 
   - name: kill avahi
