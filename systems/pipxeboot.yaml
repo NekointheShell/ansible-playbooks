@@ -45,7 +45,35 @@
       state: directory
 
 
-  - name: copy tftp directory
-    copy:
-      src: ../files/pipxeboot/tftp/
+  - name: download netboot.tar.gz
+    get_url:
+      url: https://deb.debian.org/debian/dists/bookworm/main/installer-amd64/current/images/netboot/netboot.tar.gz
+      checksum: sha256:https://deb.debian.org/debian/dists/bookworm/main/installer-amd64/current/images/SHA256SUMS
+      dest: /tftp/netboot.tar.gz
+
+
+  - name: untar netboot.tar.gz
+    unarchive:
+      src: /tftp/netboot.tar.gz
       dest: /tftp/
+
+
+  - name: symlink grub
+    file:
+      src: /tftp/debian-installer/amd64/grub
+      dest: /tftp/grub
+      state: link
+
+
+  - name: symlink grub.efi
+    file:
+      src: /tftp/debian-installer/amd64/grubx64.efi
+      dest: /tftp/grubx64.efi
+      state: link
+
+
+  - name: start and enable dnsmasq
+    systemd:
+      name: dnsmasq
+      state: running
+      enabled: true
