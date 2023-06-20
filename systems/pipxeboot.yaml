@@ -75,5 +75,5 @@
   - name: start and enable dnsmasq
     systemd:
       name: dnsmasq
-      state: running
+      state: started
       enabled: true
