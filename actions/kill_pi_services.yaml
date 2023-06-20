@@ -1,0 +1,46 @@
+- name: kill avahi
+  systemd:
+    name: avahi-daemon
+    state: stopped
+    enabled: false
+    masked: true
+
+
+- name: kill dhcpcd
+  systemd:
+    name: dhcpcd
+    state: stopped
+    enabled: false
+    masked: true
+
+
+- name: kill modem manager
+  systemd:
+    name: ModemManager
+    state: stopped
+    enabled: false
+    masked: true
+
+
+- name: kill wpa_supplicant
+  systemd:
+    name: wpa_supplicant
+    state: stopped
+    enabled: false
+    masked: true
+
+
+- name: kill network manager
+  systemd:
+    name: NetworkManager
+    state: stopped
+    enabled: false
+    masked: true
+
+
+- name: kill bluetoothd
+  systemd:
+    name: bluetooth
+    state: stopped
+    enabled: false
+    masked: true

@@ -1,0 +1,51 @@
+---
+- name: pipxeboot
+  become: yes
+  hosts: all
+
+
+  vars_prompt:
+  - name: wiredif
+    prompt: Wired Interface
+    private: false
+
+
+  tasks:
+  - import_tasks: ../actions/apt_full_upgrade.yaml
+  - import_tasks: ../actions/kill_pi_services.yaml
+
+
+  - name: apt install
+    apt:
+      name: dnsmasq
+
+
+  - name: copy networkd config
+    copy:
+      src: ../files/pipxeboot/networkd/
+      dest: /etc/systemd/network/
+
+
+  - name: replace eth0
+    replace:
+      path: /etc/systemd/network/eth0.network
+      regexp: eth0
+      replace: "{{ wiredif }}"
+
+
+  - name: copy dnsmasq config
+    copy:
+      src: ../files/pipxeboot/dnsmasq.conf
+      dest: /etc/dnsmasq.conf
+
+
+  - name: make tftp directory
+    file:
+      path: /tftp
+      state: directory
+
+
+  - name: copy tftp directory
+    copy:
+      src: ../files/pipxeboot/tftp/
+      dest: /tftp/
