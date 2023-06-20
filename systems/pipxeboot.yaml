@@ -72,6 +72,13 @@
       state: link
 
 
+  - name: start networkd
+    systemd:
+      name: systemd-networkd
+      state: started
+      enabled: true
+
+
   - name: start and enable dnsmasq
     systemd:
       name: dnsmasq
