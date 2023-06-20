@@ -92,13 +92,13 @@
 
   - name: copy sysctl.conf
     copy:
-      src: pirouter/sysctl.conf
+      src: ../files/pirouter/sysctl.conf
       dest: /etc/sysctl.conf
 
 
   - name: copy networkd configs
     copy:
-      src: pirouter/networkd/
+      src: ../files/pirouter/networkd/
       dest: /etc/systemd/network/
 
 
@@ -111,7 +111,7 @@
 
   - name: copy iptables rules
     copy:
-      src: pirouter/rules.v4
+      src: ../files/pirouter/rules.v4
       dest: /etc/iptables/rules.v4
 
 
@@ -124,13 +124,13 @@
 
   - name: copy hostapd config
     copy:
-      src: pirouter/hostapd.conf
+      src: ../files/pirouter/hostapd.conf
       dest: /etc/hostapd/hostapd.conf
 
 
   - name: copy dnsmasq config
     copy:
-      src: pirouter/dnsmasq.conf
+      src: ../files/pirouter/dnsmasq.conf
       dest: /etc/dnsmasq.conf
 
 

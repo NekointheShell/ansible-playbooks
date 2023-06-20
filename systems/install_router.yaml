@@ -64,31 +64,31 @@
 
   - name: copy sysctl.conf
     copy:
-      src: router/sysctl.conf
+      src: ../files/router/sysctl.conf
       dest: /etc/sysctl.conf
 
 
   - name: copy networkd configs
     copy:
-      src: router/networkd/
+      src: ../files/router/networkd/
       dest: /etc/systemd/network/
 
 
   - name: copy iptables rules
     copy:
-      src: router/rules.v4
+      src: ../files/router/rules.v4
       dest: /etc/iptables/rules.v4
 
 
   - name: copy resolved config
     copy:
-      src: router/resolved.conf
+      src: ../files/router/resolved.conf
       dest: /etc/systemd/resolved.conf
 
 
   - name: copy hostapd config
     copy:
-      src: router/hostapd.conf
+      src: ../files/router/hostapd.conf
       dest: /etc/hostapd/hostapd.conf
 
 

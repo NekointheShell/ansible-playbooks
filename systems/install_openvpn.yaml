@@ -15,7 +15,7 @@
 
   - name: copy openvpn config
     copy:
-      src: openvpn/server.conf
+      src: ../files/openvpn/server.conf
       dest: /etc/openvpn/server/server.conf
 
 

@@ -15,7 +15,7 @@
 
   - name: copy nginx config
     copy:
-      src: streaming/nginx.conf
+      src: ../files/streaming/nginx.conf
       dest: /etc/nginx/nginx.conf
 
 
