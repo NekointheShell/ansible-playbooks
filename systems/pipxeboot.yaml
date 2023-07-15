@@ -74,7 +74,7 @@
 
   - name: copy preseed.cfg
     file:
-      src: ../files/pipexeboot/preseed.cfg
+      src: ../files/pipxeboot/preseed.cfg
       dest: /tftp/preseed.cfg
 
 
