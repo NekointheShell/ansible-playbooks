@@ -72,6 +72,19 @@
       state: link
 
 
+  - name: copy preseed.cfg
+    file:
+      src: ../files/pipexeboot/preseed.cfg
+      dest: /tftp/preseed.cfg
+
+
+  - name: replace linux line in grub.cfg
+    replace:
+      path: /tftp/netboot/debian-installer/amd64/grub/grub.cfg
+      regexp: 'linux    /debian-installer/amd64/linux vga=788 --- quiet'
+      replace: 'linux    /debian-installer/amd64/linux vga=788 file=/preseed.cfg --- quiet'
+
+
   - name: start networkd
     systemd:
       name: systemd-networkd
