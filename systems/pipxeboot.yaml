@@ -82,7 +82,7 @@
     replace:
       path: /tftp/debian-installer/amd64/grub/grub.cfg
       regexp: 'linux    /debian-installer/amd64/linux vga=788 --- quiet'
-      replace: 'linux    /debian-installer/amd64/linux vga=788 file=/preseed.cfg --- quiet'
+      replace: 'linux    /debian-installer/amd64/linux vga=788 file=tftp://192.168.0.1/preseed.cfg --- quiet'
 
 
   - name: start networkd
