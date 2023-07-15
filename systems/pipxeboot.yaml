@@ -80,7 +80,7 @@
 
   - name: replace linux line in grub.cfg
     replace:
-      path: /tftp/netboot/debian-installer/amd64/grub/grub.cfg
+      path: /tftp/debian-installer/amd64/grub/grub.cfg
       regexp: 'linux    /debian-installer/amd64/linux vga=788 --- quiet'
       replace: 'linux    /debian-installer/amd64/linux vga=788 file=/preseed.cfg --- quiet'
 
