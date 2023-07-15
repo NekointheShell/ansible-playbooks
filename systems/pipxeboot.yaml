@@ -73,9 +73,7 @@
 
 
   - name: unarchive initrd
-    unarchive:
-      src: /tftp/debian-installer/amd64/initrd.gz
-      dest: /tftp/debian-installer/amd64/initrd
+    shell: gunzip /tftp/debian-installer/amd64/initrd.gz
 
 
   - name: copy preseed into initrd
@@ -83,8 +81,7 @@
 
 
   - name: archive initrd
-    archive:
-      path: /tftp/debian-installer/amd64/initrd
+    shell: gzip /tftp/debian-installer/amd64/initrd
 
 
   - name: start networkd
