@@ -72,17 +72,19 @@
       state: link
 
 
-  - name: copy preseed.cfg
-    copy:
-      src: ../files/pipxeboot/preseed.cfg
-      dest: /tftp/preseed.cfg
+  - name: unarchive initrd
+    unarchive:
+      src: /tftp/debian-installer/amd64/initrd.gz
+      dest: /tftp/debian-installer/amd64/initrd
 
 
-  - name: replace linux line in grub.cfg
-    replace:
-      path: /tftp/debian-installer/amd64/grub/grub.cfg
-      regexp: 'linux    /debian-installer/amd64/linux vga=788 --- quiet'
-      replace: 'linux    /debian-installer/amd64/linux vga=788 file=tftp://192.168.0.1/preseed.cfg --- quiet'
+  - name: copy preseed into initrd
+    shell: echo ../files/pipxeboot/preseed.cfg | cpio -H newc -o -A -F /tftp/debian-installer/amd64/initrd
+
+
+  - name: archive initrd
+    archive:
+      path: /tftp/debian-installer/amd64/initrd
 
 
   - name: start networkd
