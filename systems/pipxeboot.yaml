@@ -72,18 +72,6 @@
       state: link
 
 
-  - name: unarchive initrd
-    shell: gunzip /tftp/debian-installer/amd64/initrd.gz
-
-
-  - name: copy preseed into initrd
-    shell: echo ../files/pipxeboot/preseed.cfg | cpio -H newc -o -A -F /tftp/debian-installer/amd64/initrd
-
-
-  - name: archive initrd
-    shell: gzip /tftp/debian-installer/amd64/initrd
-
-
   - name: start networkd
     systemd:
       name: systemd-networkd
