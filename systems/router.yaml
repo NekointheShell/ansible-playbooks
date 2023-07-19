@@ -49,7 +49,7 @@
   # apt
   - name: apt install
     apt:
-      name: firmware-realtek, iptables-persistent, hostapd, squid-openssl, tcpdump
+      name: firmware-realtek, iptables-persistent, hostapd, squid-openssl, tcpdump, systemd-resolved
       update_cache: true
 
 
