@@ -254,7 +254,7 @@
 
   - name: squid generate certs
     shell: openssl req -x509 -newkey rsa:2048 -keyout /etc/squid/certs/key.pem -out /etc/squid/certs/cert.pem -sha256 -days 365
-    when: cert.stat.exists == false and key.stat.exists == false
+    when: cert.stat.exists == false or key.stat.exists == false
 
 
   - name: start and enable squid
