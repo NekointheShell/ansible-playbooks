@@ -34,9 +34,9 @@
 
 
 # squid prerouting
--A PREROUTING -i local -p tcp --dport 80 -j REDIRECT --to-port 3128
--A PREROUTING -i local -p tcp --dport 443 -j REDIRECT --to-port 3128
--A PREROUTING -i local -p tcp --dport 22 -j REDIRECT --to-port 3128
+# -A PREROUTING -i local -p tcp --dport 80 -j REDIRECT --to-port 3128
+# -A PREROUTING -i local -p tcp --dport 443 -j REDIRECT --to-port 3128
+# -A PREROUTING -i local -p tcp --dport 22 -j REDIRECT --to-port 3128
 
 
 COMMIT
