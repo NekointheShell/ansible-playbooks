@@ -1,7 +1,7 @@
 *filter
-:INPUT DROP
+:INPUT ACCEPT
 :FORWARD DROP
-:OUTPUT DROP
+:OUTPUT ACCEPT
 
 
 # accept loopback
