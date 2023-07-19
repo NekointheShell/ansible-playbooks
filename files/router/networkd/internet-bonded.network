@@ -1,6 +1,6 @@
 [Match]
-Name=enp5s0
-Name=enp6s0
+Name=CHANGEME_INTERNETIF1
+Name=CHANGEME_INTERNETIF2
 
 
 [Network]

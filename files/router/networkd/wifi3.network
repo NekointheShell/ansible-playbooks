@@ -1,6 +1,7 @@
 [Match]
-Name=roommate
+Name=wifi3
 
 
 [Network]
 Address=192.168.2.1/24
+IPMasquerade=true

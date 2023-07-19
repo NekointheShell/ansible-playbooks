@@ -4,6 +4,25 @@
   hosts: all
 
   vars_prompt:
+    # interfaces
+    - name: internetif1
+      prompt: Internet interface 1
+      private: false
+
+    - name: internetif2
+      prompt: Internet interface 2
+      private: false
+
+    - name: localif
+      prompt: Local interface
+      private: false
+
+    - name: wifiif
+      prompt: Wifi interface
+      private: false
+
+
+    # ssids
     - name: ssid1
       prompt: SSID 1
       private: false
@@ -11,14 +30,12 @@
     - name: passphrase1
       prompt: Passphrase 1
 
-
     - name: ssid2
       prompt: SSID 2
       private: false
 
     - name: passphrase2
       prompt: Passphrase 2
-
 
     - name: ssid3
       prompt: SSID 3
@@ -30,23 +47,10 @@
 
   tasks:
   # apt
-  - name: configure backports
-    lineinfile:
-      path: /etc/apt/sources.list
-      line: deb http://deb.debian.org/debian/ bullseye-backports
-
-
   - name: apt install
     apt:
-      name: linux-image-amd64, firmware-realtek, iptables-persistent, hostapd
+      name: firmware-realtek, iptables-persistent, hostapd
       update_cache: true
-
-
-  - name: deconfigure backports
-    lineinfile:
-      path: /etc/apt/sources.list
-      line: deb http://deb.debian.org/debian/ bullseye-backports
-      state: absent
 
 
   # copying files
@@ -97,6 +101,34 @@
 
 
   # networking
+  - name: edit internet interface 1
+    replace:
+      path: /etc/systemd/network/internet-bonded.network
+      regexp: 'CHANGEME_INTERNETIF1'
+      replace: "{{ internetif1 }}"
+
+
+  - name: edit internet interface 2
+    replace:
+      path: /etc/systemd/network/internet-bonded.network
+      regexp: 'CHANGEME_INTERNETIF2'
+      replace: "{{ internetif2 }}"
+
+
+  - name: edit local interface
+    replace:
+      path: /etc/systemd/network/local-bridged.network
+      regexp: 'CHANGEME_LOCALIF'
+      replace: "{{ localif }}"
+
+
+  - name: edit wifi interface
+    replace:
+      path: /etc/systemd/network/local-bridged.network
+      regexp: 'CHANGEME_WIFIIF'
+      replace: "{{ wifiif }}"
+
+
   - name: stop and disable networking
     systemd:
       name: networking

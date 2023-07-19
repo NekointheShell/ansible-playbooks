@@ -1,0 +1,7 @@
+[Match]
+Name=CHANGEME_LOCALIF
+Name=CHANGEME_WIFIIF
+
+
+[Network]
+Bridge=local
