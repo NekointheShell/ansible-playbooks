@@ -253,7 +253,7 @@
 
 
   - name: squid generate certs
-    shell: openssl req -x509 -new -nodes -subj "/C=US/ST=FL/L=Orlando/O=routing/CN=local" -keyout key.pem -out cert.pem
+    shell: openssl req -x509 -new -nodes -subj "/C=US/ST=FL/L=Orlando/O=routing/CN=local" -keyout /etc/squid/certs/key.pem -out /etc/squid/certs/cert.pem
     when: cert.stat.exists == false or key.stat.exists == false
 
 
