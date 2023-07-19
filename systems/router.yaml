@@ -55,6 +55,7 @@
 
   # copying files
   - name: make iptables directory file
+    file:
       path: /etc/iptables
       state: directory
 
