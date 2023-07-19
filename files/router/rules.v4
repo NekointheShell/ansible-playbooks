@@ -10,8 +10,8 @@
 
 
 # accept SSH
--A INPUT -i home -p tcp -m tcp --dport 22 -j ACCEPT
--A OUTPUT -p tcp -m tcp --sport 22 -m state --state RELATED,ESTABLISHED -j ACCEPT
+-A INPUT -i local -p tcp -m tcp --dport 22 -j ACCEPT
+-A OUTPUT -i local -p tcp -m tcp --sport 22 -m state --state RELATED,ESTABLISHED -j ACCEPT
 
 
 # accept DNS
@@ -23,14 +23,20 @@
 
 
 # forwarding
--A FORWARD -i local -o internet -j ACCEPT
--A FORWARD -i internet -o local -m state --state RELATED,ESTABLISHED -j ACCEPT
+# -A FORWARD -i local -o internet -j ACCEPT
+# -A FORWARD -i internet -o local -m state --state RELATED,ESTABLISHED -j ACCEPT
 
--A FORWARD -i wifi2 -o internet -j ACCEPT
--A FORWARD -i internet -o wifi2 -m state --state RELATED,ESTABLISHED -j ACCEPT
+# -A FORWARD -i wifi2 -o internet -j ACCEPT
+# -A FORWARD -i internet -o wifi2 -m state --state RELATED,ESTABLISHED -j ACCEPT
 
--A FORWARD -i wifi3 -o internet -j ACCEPT
--A FORWARD -i internet -o wifi3 -m state --state RELATED,ESTABLISHED -j ACCEPT
+# -A FORWARD -i wifi3 -o internet -j ACCEPT
+# -A FORWARD -i internet -o wifi3 -m state --state RELATED,ESTABLISHED -j ACCEPT
+
+
+# squid prerouting
+-t nat -A PREROUTING -i local -p tcp --dport 80 -j REDIRECT --to-port 3128
+-t nat -A PREROUTING -i local -p tcp --dport 443 -j REDIRECT --to-port 3128
+-t nat -A PREROUTING -i local -p tcp --dport 22 -j REDIRECT --to-port 3128
 
 
 COMMIT
