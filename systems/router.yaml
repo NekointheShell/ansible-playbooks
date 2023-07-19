@@ -49,13 +49,12 @@
   # apt
   - name: apt install
     apt:
-      name: firmware-realtek, iptables-persistent, hostapd
+      name: firmware-realtek, iptables-persistent, hostapd, squid-openssl, tcpdump
       update_cache: true
 
 
   # copying files
-  - name: make iptables directory
-    file:
+  - name: make iptables directory file:
       path: /etc/iptables
       state: directory
 
@@ -63,6 +62,18 @@
   - name: make hostapd directory
     file:
       path: /etc/hostapd
+      state: directory
+
+
+  - name: make squid directory
+    file:
+      path: /etc/squid
+      state: directory
+
+
+  - name: make squid cert directory
+    file:
+      path: /etc/squid/certs
       state: directory
 
 
@@ -94,6 +105,18 @@
     copy:
       src: ../files/router/hostapd.conf
       dest: /etc/hostapd/hostapd.conf
+
+
+  - name: copy squid config
+    copy:
+      src: ../files/router/squid.conf
+      dest: /etc/squid/squid.conf
+
+
+  - name: copy tcpdump unit file
+    copy:
+      src: ../files/router/tcpdump.service
+      dest: /etc/systemd/system/tcpdump.service
 
 
   - name: load sysctl config
@@ -211,4 +234,36 @@
       name: hostapd
       state: started
       enabled: true
-      masked: no
+
+
+  # squid
+  - name: check if cert exists
+    stat:
+      path: /etc/squid/certs/cert.pem
+    register: cert
+
+
+  - name: check if key exists
+    stat:
+      path: /etc/squid/certs/key.pem
+    register: key
+
+
+  - name: squid generate certs
+    shell: openssl req -x509 -newkey rsa:2048 -keyout /etc/squid/certs/key.pem -out /etc/squid/certs/cert.pem -sha256 -days 365
+    when: cert.stat.exists == false and key.stat.exists = false
+
+
+  - name: start and enable squid
+    systemd:
+      name: squid
+      state: started
+      enabled: true
+
+
+  # tcpdump
+  - name: start and enable tcpdump
+    systemd:
+      name: tcpdump
+      state: started
+      enabled: true
