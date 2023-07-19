@@ -11,7 +11,7 @@
 
 # accept SSH
 -A INPUT -i local -p tcp -m tcp --dport 22 -j ACCEPT
--A OUTPUT -i local -p tcp -m tcp --sport 22 -m state --state RELATED,ESTABLISHED -j ACCEPT
+-A OUTPUT -p tcp -m tcp --sport 22 -m state --state RELATED,ESTABLISHED -j ACCEPT
 
 
 # accept DNS
