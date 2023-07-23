@@ -66,18 +66,6 @@
       state: directory
 
 
-  - name: make squid directory
-    file:
-      path: /etc/squid
-      state: directory
-
-
-  - name: make squid cert directory
-    file:
-      path: /etc/squid/certs
-      state: directory
-
-
   - name: copy sysctl.conf
     copy:
       src: ../files/router/sysctl.conf
@@ -106,18 +94,6 @@
     copy:
       src: ../files/router/hostapd.conf
       dest: /etc/hostapd/hostapd.conf
-
-
-  - name: copy squid config
-    copy:
-      src: ../files/router/squid.conf
-      dest: /etc/squid/squid.conf
-
-
-  - name: copy tcpdump unit file
-    copy:
-      src: ../files/router/tcpdump.service
-      dest: /etc/systemd/system/tcpdump.service
 
 
   - name: load sysctl config
@@ -237,36 +213,3 @@
       state: started
       enabled: true
       masked: false
-
-
-  # squid
-  - name: check if cert exists
-    stat:
-      path: /etc/squid/certs/cert.pem
-    register: cert
-
-
-  - name: check if key exists
-    stat:
-      path: /etc/squid/certs/key.pem
-    register: key
-
-
-  - name: squid generate certs
-    shell: openssl req -x509 -new -nodes -subj "/C=US/ST=FL/L=Orlando/O=routing/CN=local" -keyout /etc/squid/certs/key.pem -out /etc/squid/certs/cert.pem
-    when: cert.stat.exists == false or key.stat.exists == false
-
-
-  - name: start and enable squid
-    systemd:
-      name: squid
-      state: started
-      enabled: true
-
-
-  # tcpdump
-  - name: start and enable tcpdump
-    systemd:
-      name: tcpdump
-      state: started
-      enabled: true

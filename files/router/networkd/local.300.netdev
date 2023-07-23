@@ -1,0 +1,7 @@
+[NetDev]
+Name=local.300
+Kind=vlan
+
+
+[VLAN]
+ID=300
