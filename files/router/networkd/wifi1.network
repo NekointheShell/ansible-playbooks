@@ -4,4 +4,4 @@ Name=wifi.1
 
 [Network]
 Address=192.168.1.1/24
-IPMasquerade=true
+IPMasquerade=ipv4
