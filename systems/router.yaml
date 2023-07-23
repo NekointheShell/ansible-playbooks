@@ -117,14 +117,14 @@
 
   - name: edit local interface
     replace:
-      path: /etc/systemd/network/local-bridged.network
+      path: /etc/systemd/network/local.network
       regexp: 'CHANGEME_LOCALIF'
       replace: "{{ localif }}"
 
 
   - name: edit wifi interface
     replace:
-      path: /etc/systemd/network/local-bridged.network
+      path: /etc/systemd/network/wifi.network
       regexp: 'CHANGEME_WIFIIF'
       replace: "{{ wifiif }}"
 

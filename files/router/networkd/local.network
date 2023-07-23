@@ -1,8 +1,7 @@
 [Match]
-Name=local
+Name=CHANGEME_LOCALIF
 
 
 [Network]
-VLAN=local.100
-VLAN=local.200
-VLAN=local.300
+Address=192.168.0.1/24
+IPMasquerade=true

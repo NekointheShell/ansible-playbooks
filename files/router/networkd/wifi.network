@@ -1,7 +1,8 @@
 [Match]
-Name=CHANGEME_LOCALIF
 Name=CHANGEME_WIFIIF
 
 
 [Network]
-Bridge=local
+VLAN=wifi.1
+VLAN=wifi.2
+VLAN=wifi.3
