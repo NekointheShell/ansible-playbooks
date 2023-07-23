@@ -1,7 +1,0 @@
-[NetDev]
-Name=wifi.2
-Kind=vlan
-
-
-[VLAN]
-Id=2

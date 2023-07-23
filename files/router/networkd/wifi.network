@@ -3,6 +3,5 @@ Name=CHANGEME_WIFIIF
 
 
 [Network]
-VLAN=wifi.1
-VLAN=wifi.2
-VLAN=wifi.3
+Address=192.168.1.1/24
+IPMasquerade=ipv4
