@@ -23,26 +23,12 @@
 
 
     # ssids
-    - name: ssid1
-      prompt: SSID 1
+    - name: ssid
+      prompt: SSID
       private: false
 
-    - name: passphrase1
-      prompt: Passphrase 1
-
-    - name: ssid2
-      prompt: SSID 2
-      private: false
-
-    - name: passphrase2
-      prompt: Passphrase 2
-
-    - name: ssid3
-      prompt: SSID 3
-      private: false
-
-    - name: passphrase3
-      prompt: Passphrase 3
+    - name: passphrase
+      prompt: Passphrase
 
 
   tasks:
@@ -122,7 +108,7 @@
       replace: "{{ localif }}"
 
 
-  - name: edit wifi interface
+  - name: edit wifi interface wifi.network
     replace:
       path: /etc/systemd/network/wifi.network
       regexp: 'CHANGEME_WIFIIF'
@@ -165,46 +151,25 @@
 
 
   # hostapd
-  - name: edit hostapd SSID 1
+  - name: edit hostapd interface
     replace:
       path: /etc/hostapd/hostapd.conf
-      regexp: 'CHANGEME_SSID_1'
-      replace: "{{ ssid1 }}"
+      regexp: 'CHANGEME_WIFIIF'
+      replace: "{{ wifiif }}"
+
+
+  - name: edit hostapd SSID
+    replace:
+      path: /etc/hostapd/hostapd.conf
+      regexp: 'CHANGEME_SSID'
+      replace: "{{ ssid }}"
 
 
   - name: edit hostapd passphrase 1
     replace:
       path: /etc/hostapd/hostapd.conf
-      regexp: 'CHANGEME_PASSPHRASE_1'
-      replace: "{{ passphrase1 }}"
-
-
-  - name: edit hostapd SSID 2
-    replace:
-      path: /etc/hostapd/hostapd.conf
-      regexp: 'CHANGEME_SSID_2'
-      replace: "{{ ssid2 }}"
-
-
-  - name: edit hostapd passphrase 2
-    replace:
-      path: /etc/hostapd/hostapd.conf
-      regexp: 'CHANGEME_PASSPHRASE_2'
-      replace: "{{ passphrase2 }}"
-
-
-  - name: edit hostapd SSID 3
-    replace:
-      path: /etc/hostapd/hostapd.conf
-      regexp: 'CHANGEME_SSID_3'
-      replace: "{{ ssid3 }}"
-
-
-  - name: edit hostapd passphrase 3
-    replace:
-      path: /etc/hostapd/hostapd.conf
-      regexp: 'CHANGEME_PASSPHRASE_3'
-      replace: "{{ passphrase3 }}"
+      regexp: 'CHANGEME_PASSPHRASE'
+      replace: "{{ passphrase }}"
 
 
   - name: start and enable hostapd
