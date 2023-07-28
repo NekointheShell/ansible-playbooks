@@ -56,6 +56,10 @@
     when: cert_method == 'self-signed'
 
 
+  - name: gitlab-ctl reconfigure
+    script: 'gitlab-ctl reconfigure'
+
+
   - name: check if initial_root_password exists
     stat:
       path: /etc/gitlab/initial_root_password
