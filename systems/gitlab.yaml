@@ -5,9 +5,15 @@
 
 
   vars_prompt:
-  - name: external_url
-    prompt: External URL
+  - name: fqdn
+    prompt: FQDN
     private: false
+
+
+  - name: cert_method
+    prompt: Cert method [lets-encrypt / self-signed]
+    private: false
+    default: 'lets-encrypt'
 
 
   tasks:
@@ -35,7 +41,19 @@
       update_cache: true
 
     environment:
-      EXTERNAL_URL: "{{ external_url }}"
+      EXTERNAL_URL: "https://{{ fqdn }}"
+
+
+  - name: create /etc/gitlab/ssl
+    file:
+      dest: /etc/gitlab/ssl
+      state: directory
+    when: cert_method == 'self-signed'
+
+
+  - name: create cert if selected
+    script: "openssl req -new -newkey rsa:4096 -nodes -days 365 -x509 -keyout /etc/gitlab/ssl/{{ fqdn }}.key --out /etc/gitlab/ssl/{{ fqdn }}.crt -subj '/C=US/ST=Florida/L=Orlando/O={{ fqdn }}/CN={{ fqdn }}'"
+    when: cert_method == 'self-signed'
 
 
   - name: check if initial_root_password exists
