@@ -37,14 +37,22 @@
       EXTERNAL_URL: "{{ external_url }}"
 
 
+  - name: check if initial_root_password exists
+    stat:
+      path: /etc/gitlab/initial_root_password
+    register: initial_root_password_exists
+
+
   - name: register initial root password
     shell: 'cat /etc/gitlab/initial_root_password'
     register: initial_root_password
+    when: initial_root_password_exists.stat.exists
 
 
   - name: display initial root password
     debug:
       msg: "Initial root password: {{ initial_root_password }}"
+    when: initial_root_password_exists.stat.exists
 
 
 # todo:
