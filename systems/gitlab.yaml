@@ -20,6 +20,7 @@
   - name: download gitlab repo script
     get_url:
       url: https://packages.gitlab.com/install/repositories/gitlab/gitlab-ce/script.deb.sh
+      checksum: sha256:b04953928c105f5283816c633c1ff721ed81ced10eb3e3223677c250fb4af987
       dest: /tmp/script.deb.sh
       mode: 'u=rwx,g=r,o=r'
 
