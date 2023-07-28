@@ -52,12 +52,12 @@
 
 
   - name: create cert if selected
-    script: "openssl req -new -newkey rsa:4096 -nodes -days 365 -x509 -keyout /etc/gitlab/ssl/{{ fqdn }}.key --out /etc/gitlab/ssl/{{ fqdn }}.crt -subj '/C=US/ST=Florida/L=Orlando/O={{ fqdn }}/CN={{ fqdn }}'"
+    shell: "openssl req -new -newkey rsa:4096 -nodes -days 365 -x509 -keyout /etc/gitlab/ssl/{{ fqdn }}.key --out /etc/gitlab/ssl/{{ fqdn }}.crt -subj '/C=US/ST=Florida/L=Orlando/O={{ fqdn }}/CN={{ fqdn }}'"
     when: cert_method == 'self-signed'
 
 
   - name: gitlab-ctl reconfigure
-    script: 'gitlab-ctl reconfigure'
+    shell: 'gitlab-ctl reconfigure'
 
 
   - name: check if initial_root_password exists
