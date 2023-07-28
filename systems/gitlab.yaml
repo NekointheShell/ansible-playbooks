@@ -1,0 +1,52 @@
+---
+- name: gitlab
+  become: yes
+  hosts: all
+
+
+  vars_prompt:
+  - name: external_url
+    prompt: External URL
+    private: false
+
+
+  tasks:
+  - name: apt install
+    apt:
+      name: curl, openssh-server, ca-certificates, perl, postfix
+      update_cache: true
+
+
+  - name: download gitlab repo script
+    get_url:
+      url: https://packages.gitlab.com/install/repositories/gitlab/gitlab-ce/script.deb.sh
+      dest: /tmp/script.deb.sh
+      mode: 'u=rwx,g=r,o=r'
+
+
+  - name: run gitlab repo script
+    script: /tmp/script.deb.sh
+
+
+  - name: apt install gitlab
+    apt:
+      name: gitlab-ce
+      update_cache: true
+
+    environment:
+      EXTERNAL_URL: "{{ external_url }}"
+
+
+  - name: register initial root password
+    shell: 'cat /etc/gitlab/initial_root_password'
+    register: initial_root_password
+
+
+  - name: display initial root password
+    debug:
+      msg: "Initial root password: {{ initial_root_password }}"
+
+
+# todo:
+#   https://docs.gitlab.com/ee/install/next_steps.html
+#   for now, just having gitlab with a fqdn will be a big step in the right direction

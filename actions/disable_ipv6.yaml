@@ -1,0 +1,13 @@
+- name: edit sysctl.conf
+  lineinfile:
+    dest: /etc/sysctl.conf
+    line: 'net.ipv6.conf.all.disable_ipv6 = 1'
+    state: present
+    insertafter: EOF
+
+
+- name: restart sysctl
+  systemd:
+    name: systemd-sysctl
+    state: started
+    enabled: true

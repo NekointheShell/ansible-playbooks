@@ -52,12 +52,6 @@
       state: directory
 
 
-  - name: copy sysctl.conf
-    copy:
-      src: ../files/router/sysctl.conf
-      dest: /etc/sysctl.conf
-
-
   - name: copy networkd configs
     copy:
       src: ../files/router/networkd/
@@ -80,10 +74,6 @@
     copy:
       src: ../files/router/hostapd.conf
       dest: /etc/hostapd/hostapd.conf
-
-
-  - name: load sysctl config
-    shell: sysctl -p
 
 
   # networking
@@ -178,3 +168,7 @@
       state: started
       enabled: true
       masked: false
+
+
+  - name: disable ipv6
+    include: ../actions/disable_ipv6.yaml
