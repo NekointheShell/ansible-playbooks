@@ -1,0 +1,10 @@
+---
+- name: install openssh-server
+  apt:
+    name: openssh-server
+
+
+- name: copy sshd_config
+  copy:
+    src: sshd_config
+    dest: /etc/ssh/sshd_config

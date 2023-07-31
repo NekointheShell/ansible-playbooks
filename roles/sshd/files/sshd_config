@@ -1,0 +1,5 @@
+ListenAddress 0.0.0.0
+PermitRootLogin without-password
+PasswordAuthentication no
+ChallengeResponseAuthentication no
+Subsystem sftp /usr/lib/openssh/sftp-server
