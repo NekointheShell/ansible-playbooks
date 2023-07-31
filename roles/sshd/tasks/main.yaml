@@ -8,7 +8,8 @@
   copy:
     src: sshd_config
     dest: /etc/ssh/sshd_config
-  notify: restart sshd
+  notify:
+    - restart sshd
 
 
 - name: sshd
