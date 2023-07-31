@@ -3,7 +3,7 @@
   copy:
     src: ../files/pxeboot/networkd/eth0.network
     dest: /etc/systemd/network/
-  when: 'pxeboot' in group_names
+  when: "'pxeboot' in group_names"
 
 
 - name: networkd

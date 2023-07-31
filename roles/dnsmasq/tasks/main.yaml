@@ -6,7 +6,7 @@
 
 - name: include pxeboot tasks
   include_tasks: pxeboot.yaml
-  when: 'pxeboot' in group_names
+  when: "'pxeboot' in group_names"
 
 
 - name: dnsmasq service
