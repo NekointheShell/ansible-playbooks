@@ -9,6 +9,14 @@
   when: "'pxeboot' in group_names"
 
 
+- name: copy router dnsmasq config
+  copy:
+    src: router.conf
+    dest: /etc/dnsmasq.conf
+  notify:
+    - restart dnsmasq
+
+
 - name: dnsmasq service
   systemd:
     name: dnsmasq

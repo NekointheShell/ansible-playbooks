@@ -1,4 +1,11 @@
 ---
+- name: restart dnsmasq
+  systemd:
+    name: dnsmasq
+    state: restarted
+    enabled: true
+
+
 - name: untar netboot.tar.gz
   unarchive:
     src: /tftp/netboot.tar.gz

@@ -1,0 +1,19 @@
+---
+- name: apt install
+  apt:
+    name: hostapd
+
+
+- name: copy hostapd config
+  copy:
+    src: router.conf
+    dest: /etc/hostapd/hostapd.conf
+  notify:
+    - restart hostapd
+
+
+- name: hostapd
+  systemd:
+    name: hostapd
+    state: started
+    enabled: true

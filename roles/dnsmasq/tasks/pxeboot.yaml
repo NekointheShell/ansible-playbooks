@@ -3,6 +3,8 @@
   copy:
     src: ../files/pxeboot.conf
     dest: /etc/dnsmasq.conf
+  notify:
+    - restart dnsmasq
 
 
 - name: tftp directory
