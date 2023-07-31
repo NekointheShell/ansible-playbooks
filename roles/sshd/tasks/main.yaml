@@ -10,6 +10,7 @@
     dest: /etc/ssh/sshd_config
   notify:
     - restart sshd
+  when: "'router' not in group_names"
 
 
 - name: sshd
