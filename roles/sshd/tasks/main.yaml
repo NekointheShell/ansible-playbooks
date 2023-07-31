@@ -12,8 +12,8 @@
     - restart sshd
 
 
-- name: ssh
+- name: sshd
   systemd:
-    name: sshd
+    name: ssh
     state: started
     enabled: true
