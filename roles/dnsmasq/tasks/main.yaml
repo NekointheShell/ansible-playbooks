@@ -1,0 +1,16 @@
+---
+- name: apt install
+  apt:
+    name: dnsmasq
+
+
+- name: include pxeboot tasks
+  include_tasks: pxeboot.yaml
+  when: 'pxeboot' in group_names
+
+
+- name: dnsmasq service
+  systemd:
+    name: dnsmasq
+    state: started
+    enabled: true

@@ -1,0 +1,6 @@
+---
+- import playbook: pxeboot.yaml
+- import playbook: router.yaml
+- import playbook: security.yaml
+- import playbook: apps.yaml
+# - import playbook: vms.yaml

@@ -1,0 +1,47 @@
+---
+- name: be sure avahi is dead
+  systemd:
+    name: avahi-daemon
+    state: stopped
+    enabled: false
+    masked: true
+
+
+- name: be sure dhcpcd is dead
+  systemd:
+    name: dhcpcd
+    state: stopped
+    enabled: false
+    masked: true
+
+
+- name: be sure modem manager is dead
+  systemd:
+    name: ModemManager
+    state: stopped
+    enabled: false
+    masked: true
+
+
+- name: be sure wpa supplicant is dead
+  systemd:
+    name: wpa_supplicant
+    state: stopped
+    enabled: false
+    masked: true
+
+
+- name: be sure network manager is dead
+  systemd:
+    name: NetworkManager
+    state: stopped
+    enabled: false
+    masked: true
+
+
+- name: be sure bluetoothd is dead
+  systemd:
+    name: bluetooth
+    state: stopped
+    enabled: false
+    masked: true

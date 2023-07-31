@@ -1,0 +1,22 @@
+---
+- name: copy dnsmasq config
+  copy:
+    src: ../files/pxeboot.conf
+    dest: /etc/dnsmasq.conf
+
+
+- name: tftp directory
+  file:
+    path: /tftp
+    state: directory
+
+
+- name: netboot.tar.gz
+  get_url:
+    url: https://deb.debian.org/debian/dists/bookworm/main/installer-amd64/current/images/netboot/netboot.tar.gz
+    checksum: sha256:b41d766e5389b4e35bac3a664da84822e0990439c9c4df933ddbaff6847a0009
+    dest: /tftp/netboot.tar.gz
+    notify:
+      - untar netboot.tar.gz
+      - symlink grub
+      - symlink grubx64.efi

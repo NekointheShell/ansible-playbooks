@@ -1,0 +1,6 @@
+---
+- hosts: apps
+  roles:
+    - roundcube
+    - osticket
+    - searx

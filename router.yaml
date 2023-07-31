@@ -1,0 +1,6 @@
+---
+- hosts: routers
+  roles:
+    - firewall
+    - dnsmasq
+    - hostapd 
