@@ -8,3 +8,11 @@
   copy:
     src: sshd_config
     dest: /etc/ssh/sshd_config
+  notify: restart sshd
+
+
+- name: sshd
+  systemd:
+    name: sshd
+    state: started
+    enabled: true
