@@ -1,0 +1,7 @@
+[NetDev]
+Name=internet
+Kind=bond
+
+
+[Bond]
+Mode=802.3ad

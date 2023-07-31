@@ -1,9 +1,26 @@
 ---
+- name: stop and disable networking
+  systemd:
+    name: networking
+    state: stopped
+    enabled: false
+  when: ansible_distribution == 'Debian'
+
+
 - name: copy pxeboot networkd config
   copy:
-    src: ../files/pxeboot/networkd/eth0.network
+    src: pxeboot/networkd/eth0.network
     dest: /etc/systemd/network/
   when: "'pxeboot' in group_names"
+  notify:
+    - restart networkd
+
+
+- name: copy router networkd config
+  copy:
+    src: router/networkd/
+    dest: /etc/systemd/network/
+  when: "'router' in group_names"
   notify:
     - restart networkd
 

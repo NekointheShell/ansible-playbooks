@@ -1,0 +1,7 @@
+[Match]
+name=enp8s0
+
+
+[Network]
+DHCP=yes
+IPMasquerade=ipv4

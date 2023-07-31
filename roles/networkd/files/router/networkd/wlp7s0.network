@@ -1,0 +1,7 @@
+[Match]
+Name=wlp7s0
+
+
+[Network]
+Address=192.168.2.2
+IPMasquerade=ipv4

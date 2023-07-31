@@ -1,0 +1,7 @@
+[Match]
+Name=enp5s0
+Name=enp6s0
+
+
+[Network]
+Bond=internet
