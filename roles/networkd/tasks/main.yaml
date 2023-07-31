@@ -20,7 +20,7 @@
   copy:
     src: router/networkd/
     dest: /etc/systemd/network/
-  when: "'router' in group_names"
+  when: "'routers' in group_names"
   notify:
     - restart networkd
 
