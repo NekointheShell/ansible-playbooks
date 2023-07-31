@@ -1,0 +1,24 @@
+---
+- name: apt install
+  apt:
+    name: iptables-persistent
+
+
+- name: iptables directory
+  file:
+    path: /etc/iptables
+    state: directory
+
+
+- name: copy router rules
+  copy:
+    src: router_rules.v4
+    dest: /etc/iptables/rules.v4
+  notify: restart iptables
+
+
+- name: iptables
+  systemd:
+    name: iptables
+    state: started
+    enabled: true

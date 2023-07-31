@@ -1,0 +1,29 @@
+*filter
+:INPUT DROP
+:OUTPUT ACCEPT
+:FORWARD DROP
+
+
+# accept input when related or established
+-A INPUT -m state --state RELATED,ESTABLISHED -j ACCEPT
+
+
+# accept loopback
+-A INPUT -i lo -j ACCEPT
+
+
+# accept SSH
+-A INPUT -i enp8s0 -p tcp -m tcp --dport 22 -j ACCEPT
+-A INPUT -i wlp7s0 -p tcp -m tcp --dport 22 -j ACCEPT
+
+
+# forwarding
+-A FORWARD -i enp8s0 -o internet -j ACCEPT
+-A FORWARD -i internet -o enp8s0 -m state --state RELATED,ESTABLISHED -j ACCEPT
+
+# flatten wifi and local net
+-A FORWARD -i enp8s0 -o wlp7s0 -j ACCEPT
+-A FORWARD -i wlp7s0 -o enp8s0 -j ACCEPT
+
+
+COMMIT

@@ -1,6 +1,8 @@
 ---
 - hosts: routers
   roles:
+    - update
+    - sshd
     - firewall
     - dnsmasq
     - hostapd 
