@@ -4,6 +4,8 @@
     src: ../files/pxeboot/networkd/eth0.network
     dest: /etc/systemd/network/
   when: "'pxeboot' in group_names"
+  notify:
+    - restart networkd
 
 
 - name: networkd
