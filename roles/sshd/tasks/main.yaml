@@ -12,7 +12,7 @@
     - restart sshd
 
 
-- name: sshd
+- name: ssh
   systemd:
     name: sshd
     state: started
