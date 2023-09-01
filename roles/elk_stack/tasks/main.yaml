@@ -17,7 +17,7 @@
     repo: deb [signed-by=/usr/share/keyrings/elasticsearch-keyring.gpg] https://artifacts.elastic.co/packages/8.x/apt stable main
 
 
-- name: install https transport
+- name: install elk
   apt:
     update_cache: true
     name:
@@ -27,7 +27,7 @@
 
 
 - name: create enrollment token
-  shell: elasticsearch-create-enrollment-token -s kibana
+  shell: /usr/share/elasticsearch/bin/elasticsearch-create-enrollment-token -s kibana
 
 
 - name: elasticsearch service
