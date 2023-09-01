@@ -1,15 +1,15 @@
 ---
-- name: import gpg key
-  apt_key:
-    url: https://artifacts.elastic.co/GPG-KEY-elasticsearch
-    keyring: /usr/share/keyrings/elasticsearch-keyring.gpg
-
-
-- name: install https transport
+- name: install packages
   apt:
     name:
       - apt-transport-https
       - gpg
+
+
+- name: import gpg key
+  apt_key:
+    url: https://artifacts.elastic.co/GPG-KEY-elasticsearch
+    keyring: /usr/share/keyrings/elasticsearch-keyring.gpg
 
 
 - name: add apt source to sources.list
