@@ -7,7 +7,9 @@
 
 - name: install https transport
   apt:
-    name: apt-transport-https
+    name:
+      - apt-transport-https
+      - gpg
 
 
 - name: add apt source to sources.list

@@ -2,6 +2,6 @@
 - hosts: security
   roles:
     - elk_stack
-    - ircd
-    - netbox
-    - bitwarden
+#     - ircd
+#     - netbox
+#     - bitwarden
