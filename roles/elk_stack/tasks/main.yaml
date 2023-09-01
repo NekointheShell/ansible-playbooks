@@ -26,15 +26,15 @@
       - logstash
 
 
-- name: create enrollment token
-  shell: /usr/share/elasticsearch/bin/elasticsearch-create-enrollment-token -s kibana
-
-
 - name: elasticsearch service
   systemd:
     name: elasticsearch
     state: started
     enabled: true
+
+
+- name: create enrollment token
+  shell: /usr/share/elasticsearch/bin/elasticsearch-create-enrollment-token -s kibana
 
 
 - name: kibana service
