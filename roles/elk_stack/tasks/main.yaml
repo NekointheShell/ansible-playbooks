@@ -1,0 +1,49 @@
+---
+- name: import gpg key
+  apt_key:
+    url: https://artifacts.elastic.co/GPG-KEY-elasticsearch
+    keyring: /usr/share/keyrings/elasticsearch-keyring.gpg
+
+
+- name: install https transport
+  apt:
+    name: apt-transport-https
+
+
+- name: add apt source to sources.list
+  apt_repository:
+    repo: deb [signed-by=/usr/share/keyrings/elasticsearch-keyring.gpg] https://artifacts.elastic.co/packages/8.x/apt stable main
+
+
+- name: install https transport
+  apt:
+    update_cache: true
+    name:
+      - elasticsearch
+      - kibana
+      - logstash
+
+
+- name: create enrollment token
+  shell: elasticsearch-create-enrollment-token -s kibana
+
+
+- name: elasticsearch service
+  systemd:
+    name: elasticsearch
+    state: started
+    enabled: true
+
+
+- name: kibana service
+  systemd:
+    name: kibana
+    state: started
+    enabled: true
+
+
+- name: logstash service
+  systemd:
+    name: logstash
+    state: started
+    enabled: true
