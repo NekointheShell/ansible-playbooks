@@ -1,0 +1,64 @@
+---
+- name: apt install
+  apt:
+    name: systemd-journal-remote
+
+
+- name: create cert directory
+  file:
+    path: /etc/ssl/journal-remote
+    state: directory
+
+
+- name: generate private key
+  openssl_privatekey:
+    path: /etc/ssl/journal-remote/journal-remote.key
+    size: 4096
+
+
+- name: chown privatekey
+  file:
+    path: /etc/ssl/journal-remote/journal-remote.key
+    owner: systemd-journal-remote
+
+
+- name: generate csr
+  openssl_csr:
+    path: /etc/ssl/journal-remote/journal-remote.csr
+    privatekey_path: /etc/ssl/journal-remote/journal-remote.key
+    common_name: "{{ inventory_hostname }}"
+
+
+- name: chown csr
+  file:
+    path: /etc/ssl/journal-remote/journal-remote.csr
+    owner: systemd-journal-remote
+
+
+- name: generate tls cert
+  openssl_certificate:
+    path: /etc/ssl/journal-remote/journal-remote.crt
+    privatekey_path: /etc/ssl/journal-remote/journal-remote.key
+    csr_path: /etc/ssl/journal-remote/journal-remote.csr
+    provider: selfsigned
+
+
+- name: chown tls cert
+  file:
+    path: /etc/ssl/certs/journal-remote.pem
+    owner: systemd-journal-remote
+
+
+- name: copy remote config
+  copy:
+    src: journal-remote.conf
+    dest: /etc/systemd/journal-remote.conf
+  notify:
+    - restart systemd-journal-remote
+
+
+- name: start service
+  systemd:
+    name: systemd-journal-remote
+    state: started
+    enabled: true

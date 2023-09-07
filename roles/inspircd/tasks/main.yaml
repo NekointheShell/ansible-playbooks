@@ -1,0 +1,65 @@
+---
+- name: apt install
+  apt:
+    name: inspircd
+
+
+- name: create cert directory
+  file:
+    path: /etc/ssl/inspircd
+    state: directory
+
+
+- name: generate private key
+  openssl_privatekey:
+    path: /etc/ssl/inspircd/inspircd.key
+    size: 4096
+
+
+- name: chown private key
+  file:
+    path: /etc/ssl/inspircd/inspircd.key
+    owner: irc
+
+
+- name: generate csr
+  openssl_csr:
+    path: /etc/ssl/inspircd/inspircd.csr
+    privatekey_path: /etc/ssl/inspircd/inspircd.key
+    common_name: "{{ inventory_hostname }}"
+
+
+- name: chown csr
+  file:
+    path: /etc/ssl/inspircd/inspircd.csr
+    owner: irc
+
+
+- name: generate tls cert
+  openssl_certificate:
+    path: /etc/ssl/inspircd/inspircd.crt
+    privatekey_path: /etc/ssl/inspircd/inspircd.key
+    csr_path: /etc/ssl/inspircd/inspircd.csr
+    provider: selfsigned
+
+
+- name: chown tls cert
+  file:
+    path: /etc/ssl/inspircd/inspircd.crt
+    owner: irc
+
+
+- name: copy inspircd config
+  copy:
+    src: inspircd.conf
+    dest: /etc/inspircd/inspircd.conf
+  notify:
+    - restart inspircd
+
+
+- name: copy inspircd motd
+  copy:
+    src: inspircd.motd
+    dest: /etc/inspircd/inspircd.motd
+  notify:
+    - restart inspircd

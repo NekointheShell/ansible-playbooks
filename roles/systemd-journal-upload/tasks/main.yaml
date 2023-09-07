@@ -1,0 +1,82 @@
+---
+- name: apt install
+  apt:
+    name: systemd-journal-remote
+
+
+- name: create cert directory
+  file:
+    path: /etc/ssl/journal-upload
+    state: directory
+
+
+- name: generate private key
+  openssl_privatekey:
+    path: /etc/ssl/journal-upload/journal-upload.key
+    size: 4096
+
+
+- name: chown private key
+  file:
+    path: /etc/ssl/journal-upload/journal-upload.key
+    owner: systemd-journal-upload
+
+
+- name: generate csr
+  openssl_csr:
+    path: /etc/ssl/journal-upload/journal-upload.csr
+    privatekey_path: /etc/ssl/journal-upload/journal-upload.key
+    common_name: "{{ inventory_hostname }}"
+
+
+- name: chown csr
+  file:
+    path: /etc/ssl/journal-upload/journal-upload.csr
+    owner: systemd-journal-upload
+
+
+- name: generate tls cert
+  openssl_certificate:
+    path: /etc/ssl/journal-upload/journal-upload.crt
+    privatekey_path: /etc/ssl/journal-upload/journal-upload.key
+    csr_path: /etc/ssl/journal-upload/journal-upload.csr
+    provider: selfsigned
+
+
+- name: chown tls cert
+  file:
+    path: /etc/ssl/journal-upload/journal-upload.crt
+    owner: systemd-journal-upload
+
+
+- name: copy upload config
+  copy:
+    src: journal-upload.conf
+    dest: /etc/systemd/journal-upload.conf
+  notify:
+    - restart systemd-journal-upload
+
+
+- name: replace URL
+  replace:
+    path: /etc/systemd/journal-upload.conf
+    regexp: localhost
+    replace: "{{ upload_url }}"
+  when: upload_url is defined
+  notify:
+    - restart systemd-journal-upload
+
+
+- name: copy unit file
+  copy:
+    src: systemd-journal-upload.service
+    dest: /usr/lib/systemd/system/systemd-journal-upload.service
+  notify:
+    - restart systemd-journal-upload
+
+
+- name: start service
+  systemd:
+    name: systemd-journal-upload
+    state: started
+    enabled: true

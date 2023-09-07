@@ -1,0 +1,6 @@
+---
+- name: copy auto-update file
+  copy:
+    src: auto-update
+    dest: /etc/cron.daily/auto-update
+    mode: +x

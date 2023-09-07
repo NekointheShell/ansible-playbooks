@@ -1,0 +1,5 @@
+---
+- name: restart systemd-journal-remote
+  systemd:
+    name: systemd-journal-remote
+    state: restarted
